@@ -41,7 +41,7 @@ public class AuthService {
     }
 
     public AuthResponse login(LoginRequest request) {
-        User user = userRepository.findByUsernameOrEmail(request.getUsernameOrEmail())
+        User user = userRepository.findByUsernameOrEmail(request.getUsernameOrEmail(), request.getUsernameOrEmail())
                 .orElseThrow(() -> new RuntimeException("Invalid username or email"));
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPasswordHash())) {

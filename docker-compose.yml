@@ -1,0 +1,32 @@
+version: '3.9'
+
+services:
+  db:
+    image: postgres:16
+    container_name: messenger-db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres123
+      POSTGRES_DB: messenger_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+      - ./db-init:/docker-entrypoint-initdb.d
+
+  app:
+    build: .
+    container_name: messenger-app
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/messenger_db
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres123
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    depends_on:
+      - db
+    stdin_open: true
+    tty: true
