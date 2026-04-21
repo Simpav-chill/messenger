@@ -1,0 +1,13 @@
+/.idea/workspace.xml
+*.iml
+
+.gradle
+build/
+out/
+
+.DS_Store
+Thumbs.db
+
+*.log
+
+data/
